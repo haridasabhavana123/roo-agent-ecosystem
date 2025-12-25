@@ -146,3 +146,78 @@ The system may only resume when the blocking condition is resolved
 and the Orchestrator explicitly resumes execution.
 
 
+
+---
+
+## 3. Blocked State Semantics
+A blocked state represents a controlled pause in execution.
+
+When the system is blocked:
+- no agent may run
+- no phase transitions may occur
+- the current phase remains unchanged
+- the system awaits external intervention
+
+Blocked state is not an error condition.
+It is an intentional mechanism for governance, safety, and recovery.
+### 3.1 Blocked State Representation
+
+The blocked state is represented explicitly in the canonical state model.
+
+```yaml
+metadata:
+  status: blocked
+governance:
+  blockedReason: <human-readable explanation>
+```
+This is **the only valid representation** of a block.
+
+---
+### 3.2 Causes of Blocking
+
+The Orchestrator MUST transition the system to blocked state
+when any of the following occur:
+
+- agent preconditions are not satisfied
+- an agent attempts to write outside its allowed scope
+- required artifacts are missing or invalid
+- required governance approval is missing
+- an invalid phase transition is attempted
+- agent execution fails unexpectedly
+
+### 3.3 Behavior While Blocked
+
+While `metadata.status == blocked`:
+
+- the Orchestrator MUST NOT invoke any agent
+- the Orchestrator MUST NOT advance phases
+- the Orchestrator MUST NOT retry execution automatically
+- the Orchestrator MAY expose the blocked state to a UI or API
+
+The system remains idle until an explicit resume action is performed.
+
+### 3.4 Resume Semantics
+
+Resuming execution from a blocked state requires explicit external action.
+
+To resume:
+- the blocking condition MUST be resolved
+- the Orchestrator MUST clear `governance.blockedReason`
+- the Orchestrator MUST set `metadata.status` to `in-progress`
+
+Resumption does NOT change the current phase.
+Execution resumes from the same phase that was blocked.
+
+### 3.5 Retry and Manual Intervention
+
+Blocked states may be resolved by:
+- human approval
+- configuration correction
+- artifact regeneration
+- policy override
+
+The Orchestrator does not distinguish between retry and manual fix.
+It relies solely on the canonical state to determine readiness to resume.
+
+
+
