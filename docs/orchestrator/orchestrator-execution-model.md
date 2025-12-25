@@ -329,4 +329,52 @@ If the active phase is `deploy` and validations succeed:
 - no further execution cycles occur
 
 
+---
+
+## 5. Completion & Termination Semantics
+
+Completion represents the terminal state of the orchestration lifecycle.
+
+When the system reaches completion:
+- all lifecycle phases have been successfully executed
+- all required governance approvals are recorded
+- all artifacts are considered final and immutable
+
+### 5.1 Completion State Representation
+
+The completed state is represented as:
+
+```yaml
+metadata:
+  status: completed
+```
+---
+### 5.2 Post-Completion Invariants
+
+Once the system is in completed state:
+
+- the Orchestrator MUST NOT invoke any agent
+- the Orchestrator MUST NOT change `metadata.currentPhase`
+- the Orchestrator MUST NOT modify any lifecycle artifacts
+- the canonical state becomes read-only
+
+### 5.3 Re-run and Restart Policy
+
+Completion is final for a given canonical state instance.
+
+To re-run the lifecycle:
+- a new canonical state instance MUST be created
+- prior state MAY be referenced but MUST NOT be modified
+
+Restarting execution within the same state instance is forbidden.
+
+### 5.4 Audit and Archival Semantics
+
+Completed canonical state instances are suitable for:
+- audit
+- traceability
+- compliance review
+- archival storage
+
+No further orchestration actions may occur on archived state.
 
