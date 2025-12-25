@@ -1,0 +1,14 @@
+flowchart LR
+    Controller["Customer Controller"]
+    Profile["Customer Profile Manager"]
+    Relationship["Relationship Manager"]
+    Validation["Customer Validation & KYC Rules"]
+    Repository["Customer Repository"]
+    EventPublisher["Customer Domain Event Publisher"]
+
+    Controller --> Profile
+    Controller --> Relationship
+    Profile --> Validation
+    Profile --> Repository
+    Relationship --> Repository
+    Profile --> EventPublisher

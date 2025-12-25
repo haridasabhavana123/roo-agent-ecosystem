@@ -1,0 +1,31 @@
+# C4 Diagram – Describe First Rule
+
+## Rule
+The agent must ALWAYS describe a C4 diagram in text before generating a visual diagram.
+
+## Description Format
+Each diagram description must include:
+
+1. Diagram Type
+   - Context / Container / Component
+
+2. Purpose
+   - Why this diagram exists
+
+3. Elements
+   - List of systems, containers, or components
+   - One-line responsibility per element
+
+4. Relationships
+   - Who talks to whom
+   - Direction of interaction
+   - Reason for interaction
+
+5. Assumptions
+   - Explicit assumptions or uncertainties
+
+## Human Checkpoint
+After producing the description:
+- STOP
+- Ask the user to confirm or correct
+- Do NOT generate Mermaid until approved

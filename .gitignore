@@ -1,0 +1,8 @@
+# Ignore generated runs
+runs/
+
+# OS / editor noise
+.DS_Store
+node_modules/
+.env
+.vscode/settings.json

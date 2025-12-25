@@ -1,0 +1,35 @@
+# BIAN Architecture Agent — Specification
+
+## Purpose
+Generate architecture blueprints for a selected BIAN Service Domain using publicly available BIAN documentation.
+
+## User Input
+- BIAN Service Domain (e.g. "Payment Execution")
+
+## Agent Responsibilities
+- Ask user for a service domain
+- Research BIAN public sources
+- Extract key features and responsibilities
+- Generate architecture artifacts:
+  - Interfaces
+  - APIs
+  - OpenAPI (Swagger)
+  - Architecture diagrams
+  - Blueprint document
+
+## Outputs
+- blueprint.md
+- openapi/*.yaml
+- diagrams/*.mmd
+- interfaces/*.md
+- sources.json
+
+## Rules
+- Use only public information
+- Mark assumptions clearly
+- Ask user before final generation
+## Diagram Generation Rules
+- All architecture diagrams must follow C4 model
+- Diagrams must be described in text first
+- Human approval is required before drawing
+- Mermaid is used only after approval

@@ -1,0 +1,21 @@
+flowchart LR
+    subgraph CustomerManagement["Customer Management Domain"]
+        API["Customer API"]
+        Service["Customer Domain Service"]
+        DB["Customer Master Database"]
+        Events["Customer Event Publisher"]
+    end
+
+    Channels["Web / Mobile Channels"]
+    CoreBanking["Core Banking"]
+    CRM["CRM & Analytics"]
+    Compliance["KYC / AML Systems"]
+
+    Channels -->|HTTPS| API
+    API --> Service
+    Service --> DB
+    Service --> Events
+
+    Service -->|Customer Reference Sync| CoreBanking
+    Events -->|Customer Events| CRM
+    Events -->|Compliance Events| Compliance
