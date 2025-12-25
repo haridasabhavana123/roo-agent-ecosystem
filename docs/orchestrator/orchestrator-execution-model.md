@@ -220,4 +220,113 @@ The Orchestrator does not distinguish between retry and manual fix.
 It relies solely on the canonical state to determine readiness to resume.
 
 
+---
+
+## 4. Orchestrator Execution Cycle
+
+The Orchestrator operates as a continuous evaluation loop.
+
+In each cycle, it:
+- reads the canonical state
+- determines whether execution may proceed
+- validates conditions for the active phase
+- invokes exactly one agent (if permitted)
+- validates results and governance
+- advances the phase, blocks, or completes execution
+
+The Orchestrator never assumes agent correctness.
+All outcomes are validated against the canonical state.
+
+### 4.1 Main Execution Loop (Pseudocode)
+```
+while true:
+
+load canonical state
+
+if metadata.status == completed:
+terminate execution
+
+if metadata.status == blocked:
+wait for external resume action
+continue
+
+determine active phase from metadata.currentPhase
+resolve corresponding agent for the phase
+
+if preconditions for the agent are not satisfied:
+block execution with reason
+continue
+
+invoke the agent with the current canonical state
+
+if agent writes outside its allowed scope:
+block execution with reason
+continue
+
+if required outputs for the phase are missing or invalid:
+block execution with reason
+continue
+
+if required governance approval is missing:
+block execution with reason
+continue
+
+if current phase is deploy:
+mark metadata.status as completed
+persist state
+terminate execution
+
+advance to the next phase
+persist state
+```
+### 4.2 Preconditions Evaluation
+
+Before invoking an agent, the Orchestrator MUST verify that
+all phase-specific preconditions are satisfied.
+
+Preconditions are defined in the agent’s canonical state mapping
+and MAY include:
+
+- current phase match
+- prior artifacts approved
+- required governance approvals present
+
+Failure to satisfy any precondition MUST result in blocked state.
+
+### 4.3 Agent Invocation Rules
+
+During each execution cycle:
+
+- exactly one agent MAY be invoked
+- the agent MUST be the one mapped to the active phase
+- agents are invoked as black boxes
+- agents receive the canonical state as input
+- agents may modify only their allowed write scope
+
+The Orchestrator MUST NOT trust agents to enforce these rules.
+
+
+### 4.4 Output and Governance Validation
+
+After agent execution, the Orchestrator MUST validate:
+
+- only allowed state fields were modified
+- required artifacts are present and valid
+- required governance approvals are recorded
+
+Any validation failure MUST result in blocked state.
+
+### 4.5 Phase Advancement and Completion
+
+If all validations succeed:
+
+- the Orchestrator advances to the next phase
+- execution continues in the next cycle
+
+If the active phase is `deploy` and validations succeed:
+
+- the Orchestrator MUST set `metadata.status` to `completed`
+- no further execution cycles occur
+
+
 
