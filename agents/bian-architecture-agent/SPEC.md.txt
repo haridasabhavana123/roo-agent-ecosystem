@@ -33,3 +33,8 @@ Generate architecture blueprints for a selected BIAN Service Domain using public
 - Diagrams must be described in text first
 - Human approval is required before drawing
 - Mermaid is used only after approval
+
+## Diagram Automation
+- Diagrams must be derived from the blueprint
+- Golden reference diagrams must be used for validation
+- Manual diagram creation is not allowed outside Golden references

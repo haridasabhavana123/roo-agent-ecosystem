@@ -1,0 +1,19 @@
+# Temporary / generated files
+*.html
+*.tmp
+temp.*
+derived-*.mmd
+
+# Generated folders
+openapi/
+interfaces/
+diagrams/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Node / Python (future-proofing)
+node_modules/
+.env
