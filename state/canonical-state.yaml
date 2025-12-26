@@ -1,0 +1,60 @@
+metadata:
+  stateVersion: "1.0"
+  createdAt: 2025-01-01T00:00:00Z
+  updatedAt: 2025-01-01T00:00:00Z
+  currentPhase: deploy
+  status: completed
+serviceDomain:
+  name: Customer Management
+  description: BIAN Customer Management service domain
+  version: v1
+governance:
+  approvals:
+    architecture: true
+    design: true
+    code: true
+    tests: true
+    deployment: false
+  blockedReason: null
+architecture:
+  blueprint:
+    path: runs/customer-management/blueprint.md
+    approved: true
+  diagrams: {}
+design:
+  status: approved
+  decisions: []
+  interfaces: []
+code:
+  status: completed
+  repositories:
+    - name: customer-management-service
+      path: repos/customer-management
+      language: typescript
+      buildTool: npm
+  modules:
+    - name: customer-core
+      description: Core customer management logic
+      relatedInterfaces:
+        - CustomerAPI
+tests:
+  status: passed
+  testSuites:
+    - name: customer-unit-tests
+      type: unit
+      result: passed
+    - name: customer-integration-tests
+      type: integration
+      result: passed
+  coverage:
+    percentage: 82
+deployment:
+  status: completed
+  environments:
+    - name: dev
+      url: http://localhost:3000
+      version: v1.0.0
+  artifacts:
+    - name: customer-management-service
+      type: container
+      location: local-docker-registry/customer-management:1.0.0
