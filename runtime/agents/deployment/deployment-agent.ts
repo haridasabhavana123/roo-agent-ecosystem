@@ -3,15 +3,14 @@ import { CanonicalState } from "../../../types/state";
 export async function runDeploymentAgent(
   state: CanonicalState
 ): Promise<CanonicalState> {
-  const updatedState: CanonicalState = structuredClone(state);
+  const newState: CanonicalState = structuredClone(state);
 
-  // Simulated deployment (local/dev for now)
-  updatedState.deployment = {
+  newState.deployment = {
     status: "completed",
     environments: [
       {
-        name: "dev",
-        url: "http://localhost:3000",
+        name: "prod",
+        url: "https://api.customer-management.example.com",
         version: "v1.0.0",
       },
     ],
@@ -19,10 +18,10 @@ export async function runDeploymentAgent(
       {
         name: "customer-management-service",
         type: "container",
-        location: "local-docker-registry/customer-management:1.0.0",
+        location: "registry.example.com/customer-management:v1.0.0",
       },
     ],
   };
 
-  return updatedState;
+  return newState;
 }

@@ -3,26 +3,33 @@ import { CanonicalState } from "../../../types/state";
 export async function runCodeAgent(
   state: CanonicalState
 ): Promise<CanonicalState> {
-  const updatedState: CanonicalState = structuredClone(state);
+  return {
+    ...state,
 
-  updatedState.code = {
-    status: "completed",
-    repositories: [
-      {
-        name: "customer-management-service",
-        path: "repos/customer-management",
-        language: "typescript",
-        buildTool: "npm",
-      },
-    ],
-    modules: [
-      {
-        name: "customer-core",
-        description: "Core customer management logic",
-        relatedInterfaces: ["CustomerAPI"],
-      },
-    ],
+    code: {
+      status: "completed",
+
+      repositories: [
+        {
+          name: "customer-management-service",
+          path: "repos/customer-management",
+          language: "typescript",
+          buildTool: "npm",
+        },
+      ],
+
+      modules: [
+        {
+          name: "CustomerController",
+          description: "Handles customer API requests",
+          relatedInterfaces: ["CustomerAPI"],
+        },
+        {
+          name: "CustomerService",
+          description: "Implements core customer business logic",
+          relatedInterfaces: ["CustomerAPI"],
+        },
+      ],
+    },
   };
-
-  return updatedState;
 }

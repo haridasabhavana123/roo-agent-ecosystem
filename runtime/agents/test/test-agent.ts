@@ -3,18 +3,19 @@ import { CanonicalState } from "../../../types/state";
 export async function runTestAgent(
   state: CanonicalState
 ): Promise<CanonicalState> {
-  const updatedState: CanonicalState = structuredClone(state);
+  const newState: CanonicalState = structuredClone(state);
 
-  updatedState.tests = {
+  // Simulated test execution
+  newState.tests = {
     status: "passed",
     testSuites: [
       {
-        name: "customer-unit-tests",
+        name: "unit-tests",
         type: "unit",
         result: "passed",
       },
       {
-        name: "customer-integration-tests",
+        name: "integration-tests",
         type: "integration",
         result: "passed",
       },
@@ -24,5 +25,5 @@ export async function runTestAgent(
     },
   };
 
-  return updatedState;
+  return newState;
 }

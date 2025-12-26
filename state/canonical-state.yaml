@@ -33,17 +33,21 @@ code:
       language: typescript
       buildTool: npm
   modules:
-    - name: customer-core
-      description: Core customer management logic
+    - name: CustomerController
+      description: Handles customer API requests
+      relatedInterfaces:
+        - CustomerAPI
+    - name: CustomerService
+      description: Implements core customer business logic
       relatedInterfaces:
         - CustomerAPI
 tests:
   status: passed
   testSuites:
-    - name: customer-unit-tests
+    - name: unit-tests
       type: unit
       result: passed
-    - name: customer-integration-tests
+    - name: integration-tests
       type: integration
       result: passed
   coverage:
@@ -51,10 +55,10 @@ tests:
 deployment:
   status: completed
   environments:
-    - name: dev
-      url: http://localhost:3000
+    - name: prod
+      url: https://api.customer-management.example.com
       version: v1.0.0
   artifacts:
     - name: customer-management-service
       type: container
-      location: local-docker-registry/customer-management:1.0.0
+      location: registry.example.com/customer-management:v1.0.0
